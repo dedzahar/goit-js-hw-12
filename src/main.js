@@ -49,11 +49,12 @@ function makeAndRefresh(page) {
             }
             galleryContainer.insertAdjacentHTML('beforeend', makeGallery(data.hits));
             lightbox.refresh();
-            moreBtn.style.display = "block";
             scroll();
             if (Math.floor(data.totalHits / page) < 15) {
                 iziToast.show(createMsg("We're sorry, but you've reached the end of search results."));
                 moreBtn.style.display = "none";
+            } else {
+                moreBtn.style.display = "block";
             }
         })
         .catch(error => {
