@@ -32,7 +32,8 @@ body {
   outline: none;
 }
 
-.search-btn {
+.search-btn,
+.more-btn {
   height: 40px;
   padding: 8px 16px;
   color: #fff;
@@ -41,7 +42,14 @@ body {
   background-color: #4e75ff;
 }
 
-.search-btn:hover {
+.more-btn {
+  display: block;
+  width: 126px;
+  margin: 32px auto;
+}
+
+.search-btn:hover,
+.more-btn:hover {
   background-color: #6c8cff;
 }
 

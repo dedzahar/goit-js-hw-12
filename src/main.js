@@ -13,25 +13,48 @@ const lightbox = new SimpleLightbox(".gallery a", {
     captionDelay: 250
 });
 const loader = document.querySelector(".loader");
+const moreBtn = document.querySelector(".more-btn");
+const searchInput = document.querySelector(".search-input");
 loader.style.display = "none";
+moreBtn.style.display = "none";
+let searchString = "";
+let page = 1;
 
 form.addEventListener("submit", event => {
     event.preventDefault();
-    const searchString = event.target.elements.search.value.trim();
+    searchString = event.target.elements.search.value.trim();
     if (searchString === "") {
         return;
     }
     loader.style.display = "block";
     galleryContainer.innerHTML = "";
-    loader.style
-    makeFetch(searchString)
+    page = 1;
+    makeAndRefresh(page);
+})
+
+moreBtn.addEventListener("click", () => {
+    page++;
+    makeAndRefresh(page);
+})
+
+searchInput.addEventListener("click", event => {
+    event.target.value = "";
+})
+
+function makeAndRefresh(page) {
+    makeFetch(searchString, page)
         .then(data => {
             if (data.total == 0) {
                 iziToast.show(createMsg());
             }
             galleryContainer.insertAdjacentHTML('beforeend', makeGallery(data.hits));
             lightbox.refresh();
-            event.target.reset();
+            moreBtn.style.display = "block";
+            scroll();
+            if (Math.floor(data.totalHits / page) < 15) {
+                iziToast.show(createMsg("We're sorry, but you've reached the end of search results."));
+                moreBtn.style.display = "none";
+            }
         })
         .catch(error => {
             iziToast.show(createMsg(error.message));
@@ -39,7 +62,7 @@ form.addEventListener("submit", event => {
         .finally(() => {
             loader.style.display = "none";
         });
-})
+}
 
 function createMsg(msg = "") {
     return {
@@ -48,4 +71,13 @@ function createMsg(msg = "") {
         backgroundColor: '#EF4040',
         position: 'topRight',
     }
+}
+
+function scroll() {
+    const item = document.querySelector(".gallery-item");
+    window.scrollBy({
+        top: 250 * 2 + 24 * 2,
+        left: 0,
+        behavior: "smooth",
+    });
 }
