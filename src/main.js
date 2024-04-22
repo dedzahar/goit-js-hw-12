@@ -46,6 +46,7 @@ function makeAndRefresh(page) {
         .then(data => {
             if (data.total == 0) {
                 iziToast.show(createMsg());
+                return;
             }
             galleryContainer.insertAdjacentHTML('beforeend', makeGallery(data.hits));
             lightbox.refresh();
