@@ -42,6 +42,7 @@ searchInput.addEventListener("click", event => {
 })
 
 function makeAndRefresh(page) {
+    moreBtn.style.display = "none";
     makeFetch(searchString, page)
         .then(data => {
             if (data.total == 0) {

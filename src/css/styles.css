@@ -61,11 +61,13 @@ body {
   gap: 24px;
   max-width: 1128px;
   margin: 24px auto;
+  justify-content: center;
 }
 
 .gallery-item {
   width: calc((100% - 24px * 2) / 3);
   border: 1px solid #808080;
+  min-width: 360px;
 }
 
 .gallery-image {
